@@ -9,14 +9,20 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 public class showsGenerator {
-    public static void main(String[] args) {
-        String folderPath = "Textures/Shows/";
-        String targetLocation = "Defs\\ShowDefs";
+    public static void redButton(String sourceFolder, String targetFolder, List<Boolean> whatKindOfTvToInclude) {
+        String folderPath = sourceFolder;
+        String targetLocation = targetFolder;
         List<String> folderNames = listFolderNames(folderPath);
 
-        
         List<String> tvTypes = List.of("Tube", "Flatscreen", "Megascreen", "Ultrascreen");
-        generateXmlFiles(folderNames, targetLocation, tvTypes);
+        List<String> thisShitGonnaGoInside = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            if (whatKindOfTvToInclude.get(i)) {
+                thisShitGonnaGoInside.add(tvTypes.get(i));
+            }
+        }
+
+        generateXmlFiles(folderNames, targetLocation, thisShitGonnaGoInside);
     }
 
     public static List<String> listFolderNames(String foldersPath) {
@@ -51,8 +57,8 @@ public class showsGenerator {
             File[] listOfFiles = folder.listFiles();
 
             if (listOfFiles != null) {
-                for (File file : listOfFil es) {
-                    if (file.isFile()) {//removing type from picture name
+                for (File file : listOfFiles) {
+                    if (file.isFile()) {// removing type from picture name
                         String fileName = file.getName();
                         int lastIndex = fileName.lastIndexOf(".");
                         if (lastIndex > 0) {
