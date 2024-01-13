@@ -1,4 +1,3 @@
-package Textures;
 
 import java.io.File;
 import java.io.FileWriter;
