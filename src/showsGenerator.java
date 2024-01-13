@@ -42,7 +42,8 @@ public class showsGenerator {
                 System.out.println("Folder is empty");
             }
         } else {
-            System.out.println("I fucked up something");
+            System.out.println("Creating Shows folder");
+            folder.mkdir();
         }
         return folderNameList;
     }
@@ -52,7 +53,10 @@ public class showsGenerator {
 
         File folder = new File(foldersPath);
 
-        if (folder.isDirectory()) {
+        if (!folder.isDirectory()) {
+            System.out.println("Creating Defs folder");
+            folder.mkdir();
+        } else {
             File[] listOfFiles = folder.listFiles();
 
             if (listOfFiles != null) {
@@ -69,9 +73,8 @@ public class showsGenerator {
             } else {
                 System.out.println("Folder is empty");
             }
-        } else {
-            System.out.println("I fucked up something");
         }
+
         return folderNameList;
     }
 
@@ -79,11 +82,15 @@ public class showsGenerator {
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
 
         for (String folderName : folderNames) {
+            File quickcheck = new File(targetLocation);
+            if (!quickcheck.isDirectory()) {
+                quickcheck.mkdir();
+            }
             String xmlFileName = targetLocation + File.separator + folderName + ".xml";
 
             try (FileWriter fileWriter = new FileWriter(xmlFileName)) {
 
-                String folderPath = "Textures/Shows/" + folderName;
+                String folderPath = "Shows/" + folderName;
                 List<String> filesNames = listFilesNames(folderPath);
 
                 XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(fileWriter);
