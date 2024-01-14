@@ -144,9 +144,9 @@ public class Window extends JFrame implements ActionListener {
         if (e.getSource() == generateButton) {
             if (tvFlat.isSelected() || tvMega.isSelected() || tvTube.isSelected() || tvUltra.isSelected() != false) {
                 List<Boolean> checkedBoxes = new ArrayList<>();
+                checkedBoxes.add(tvTube.isSelected());
                 checkedBoxes.add(tvFlat.isSelected());
                 checkedBoxes.add(tvMega.isSelected());
-                checkedBoxes.add(tvTube.isSelected());
                 checkedBoxes.add(tvUltra.isSelected());
                 showsGenerator.redButton(pickedSource, pickedTarget, checkedBoxes);
             } else {
@@ -173,8 +173,9 @@ public class Window extends JFrame implements ActionListener {
             int userSelection = fileChooser.showOpenDialog(this);
 
             if (userSelection == fileChooser.APPROVE_OPTION) {
-                pickedTarget = fileChooser.getSelectedFile().getAbsolutePath();
-                sourceField.setText(pickedTarget);
+                pickedSource = fileChooser.getSelectedFile().getAbsolutePath();
+                sourceField.setText(pickedSource);
+                System.out.println(pickedSource);
             }
         }
     }

@@ -16,12 +16,12 @@ public class showsGenerator {
         List<String> tvTypes = List.of("Tube", "Flatscreen", "Megascreen", "Ultrascreen");
         List<String> thisShitGonnaGoInside = new ArrayList<>();
         for (int i = 0; i < 4; i++) { // create List of supported TVs
-            if (whatKindOfTvToInclude.get(i)) {
+            if (Boolean.TRUE.equals(whatKindOfTvToInclude.get(i))) {
                 thisShitGonnaGoInside.add(tvTypes.get(i));
             }
         } // yeach, it's shit but I have no idea how to make it better
 
-        generateXmlFiles(folderNames, targetLocation, thisShitGonnaGoInside);
+        generateXmlFiles(folderNames, sourceFolder, targetLocation, thisShitGonnaGoInside);
     }
 
     public static List<String> listFolderNames(String foldersPath) {
@@ -77,7 +77,8 @@ public class showsGenerator {
         return folderNameList;
     }
 
-    public static void generateXmlFiles(List<String> folderNames, String targetLocation, List<String> tvTypes) {
+    public static void generateXmlFiles(List<String> folderNames, String sourceLocation, String targetLocation,
+            List<String> tvTypes) {
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
 
         for (String folderName : folderNames) {
@@ -86,7 +87,7 @@ public class showsGenerator {
 
             try (FileWriter fileWriter = new FileWriter(xmlFileName)) {
 
-                String folderPath = "Shows/" + folderName;
+                String folderPath = sourceLocation + File.separator + folderName;
                 List<String> filesNames = listFilesNames(folderPath);
 
                 XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(fileWriter);
