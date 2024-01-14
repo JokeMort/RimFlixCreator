@@ -11,25 +11,26 @@ public class showsGenerator {
     public static void redButton(String sourceFolder, String targetFolder, List<Boolean> whatKindOfTvToInclude) {
         String folderPath = sourceFolder;
         String targetLocation = targetFolder;
-        List<String> folderNames = listFolderNames(folderPath);
+        List<String> folderNames = listFolderNames(folderPath); // load all shows names
 
         List<String> tvTypes = List.of("Tube", "Flatscreen", "Megascreen", "Ultrascreen");
         List<String> thisShitGonnaGoInside = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) { // create List of supported TVs
             if (whatKindOfTvToInclude.get(i)) {
                 thisShitGonnaGoInside.add(tvTypes.get(i));
             }
-        }
+        } // yeach, it's shit but I have no idea how to make it better
 
         generateXmlFiles(folderNames, targetLocation, thisShitGonnaGoInside);
     }
 
     public static List<String> listFolderNames(String foldersPath) {
+
         List<String> folderNameList = new ArrayList<>();
 
         File folder = new File(foldersPath);
 
-        if (folder.isDirectory()) {
+        if (folder.isDirectory()) { // check if Shows exists
             File[] listOfFiles = folder.listFiles();
 
             if (listOfFiles != null) {
@@ -42,26 +43,23 @@ public class showsGenerator {
                 System.out.println("Folder is empty");
             }
         } else {
-            System.out.println("Creating Shows folder");
-            folder.mkdir();
+            System.out.println("Folder not found");
         }
         return folderNameList;
     }
 
-    public static List<String> listFilesNames(String foldersPath) {
+    public static List<String> listFilesNames(String foldersPath) { // creating list of file names for creation of XML
+
         List<String> folderNameList = new ArrayList<>();
 
         File folder = new File(foldersPath);
 
-        if (!folder.isDirectory()) {
-            System.out.println("Creating Defs folder");
-            folder.mkdir();
-        } else {
-            File[] listOfFiles = folder.listFiles();
+        if (folder.isDirectory()) {
+            File[] listOfFiles = folder.listFiles();// creating list of pictures in directory
 
             if (listOfFiles != null) {
                 for (File file : listOfFiles) {
-                    if (file.isFile()) {// removing type from picture name
+                    if (file.isFile()) { // removing type from picture name
                         String fileName = file.getName();
                         int lastIndex = fileName.lastIndexOf(".");
                         if (lastIndex > 0) {
@@ -73,8 +71,9 @@ public class showsGenerator {
             } else {
                 System.out.println("Folder is empty");
             }
+        } else {
+            System.out.println("Folder not found");
         }
-
         return folderNameList;
     }
 
@@ -82,10 +81,7 @@ public class showsGenerator {
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
 
         for (String folderName : folderNames) {
-            File quickcheck = new File(targetLocation);
-            if (!quickcheck.isDirectory()) {
-                quickcheck.mkdir();
-            }
+
             String xmlFileName = targetLocation + File.separator + folderName + ".xml";
 
             try (FileWriter fileWriter = new FileWriter(xmlFileName)) {
@@ -114,7 +110,7 @@ public class showsGenerator {
 
                 xmlStreamWriter.writeStartElement("description");
                 xmlStreamWriter.writeCharacters(
-                        "This is show called " + folderName + ". This decription was generated automatically.");
+                        "This is show called " + folderName + ". This description was generated automatically.");
                 xmlStreamWriter.writeEndElement();
                 xmlStreamWriter.writeCharacters("\n\n");
 
@@ -164,10 +160,9 @@ public class showsGenerator {
                 xmlStreamWriter.writeCharacters("\n\n");
                 xmlStreamWriter.writeEndDocument();
 
-                // Zamknij strumień XML
                 xmlStreamWriter.close();
 
-                System.out.println("Plik XML dla folderu '" + folderName + "' został utworzony: " + xmlFileName);
+                System.out.println("File XML for folder: '" + folderName + "' was created: " + xmlFileName);
             } catch (XMLStreamException | java.io.IOException e) {
                 e.printStackTrace();
             }
