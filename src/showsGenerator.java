@@ -8,7 +8,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 public class showsGenerator {
-    public static void redButton(String sourceFolder, String targetFolder, List<Boolean> whatKindOfTvToInclude) {
+    public static void redButton(String sourceFolder, String targetFolder, List<Boolean> whatKindOfTvToInclude,
+            String speed) {
         String folderPath = sourceFolder;
         String targetLocation = targetFolder;
         List<String> folderNames = listFolderNames(folderPath); // load all shows names
@@ -21,7 +22,7 @@ public class showsGenerator {
             }
         } // yeach, it's shit but I have no idea how to make it better
 
-        generateXmlFiles(folderNames, sourceFolder, targetLocation, thisShitGonnaGoInside);
+        generateXmlFiles(folderNames, sourceFolder, targetLocation, thisShitGonnaGoInside, speed);
     }
 
     public static List<String> listFolderNames(String foldersPath) {
@@ -78,7 +79,7 @@ public class showsGenerator {
     }
 
     public static void generateXmlFiles(List<String> folderNames, String sourceLocation, String targetLocation,
-            List<String> tvTypes) {
+            List<String> tvTypes, String speed) {
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
 
         for (String folderName : folderNames) {
@@ -127,7 +128,7 @@ public class showsGenerator {
                 xmlStreamWriter.writeCharacters("\n\n");
 
                 xmlStreamWriter.writeStartElement("secondsBetweenFrames");
-                xmlStreamWriter.writeCharacters("0.05");
+                xmlStreamWriter.writeCharacters(Float.toString(1 / Float.parseFloat(speed)));
                 xmlStreamWriter.writeEndElement();
                 xmlStreamWriter.writeCharacters("\n\n");
 
