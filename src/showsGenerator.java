@@ -1,7 +1,9 @@
 
 import java.io.File;
 import java.io.FileWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -14,7 +16,7 @@ public class showsGenerator {
         String targetLocation = targetFolder;
         List<String> folderNames = listFolderNames(folderPath); // load all shows names
 
-        List<String> tvTypes = List.of("Tube", "Flatscreen", "Megascreen", "Ultrascreen");
+        List<String> tvTypes = new ArrayList<>(Arrays.asList("Tube", "Flatscreen", "Megascreen", "Ultrascreen"));
         List<String> thisShitGonnaGoInside = new ArrayList<>();
         for (int i = 0; i < 4; i++) { // create List of supported TVs
             if (Boolean.TRUE.equals(whatKindOfTvToInclude.get(i))) {
@@ -93,7 +95,7 @@ public class showsGenerator {
 
                 XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(fileWriter);
 
-                xmlStreamWriter.writeStartDocument("utf-8", "1.0");
+                xmlStreamWriter.writeStartDocument("cp1250", "1.0");
                 xmlStreamWriter.writeCharacters("\n\n");
                 xmlStreamWriter.writeStartElement("Defs");
                 xmlStreamWriter.writeCharacters("\n\n");
